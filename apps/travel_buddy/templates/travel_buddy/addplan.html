@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Secrets</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    </head>
+    <body>
+        <h5 style="text-align: right"><a href="/logout" style="margin: 20px">Log out</a> | <a href="/travel" style="margin: 20px">Home</a></h5>
+        <h5 class="container">Hello, {{user.name}} </h5>
+        <div class="container row">
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                <li style="color:red">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="row">
+                <form action="/createplan" class="col s12" method="POST">
+                    <div class="">
+                    {% csrf_token %}
+                    <!-- <label for="textarea1"></label> -->
+                    <textarea name="destination" class="materialize-textarea" placeholder="Destination"></textarea>
+                    <!-- <label for="textarea2">Description</label> -->
+                    <textarea name="description" class="materialize-textarea" placeholder="Description"></textarea>
+                    <label for="textarea3">Travel Date From</label>
+                    <input name="start" id="textarea3" type="date" class="materialize-textarea" placeholder="Travel Date From~">
+                    <label for="textare4">Travel Date To</label>
+                    <input name="end" id="textare4" type="date" class="materialize-textarea" placeholder="Travel Date To">
+                    <button type="submit" class="btn">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

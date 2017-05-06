@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Popular Secrets</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    </head>
+
+    <body>
+        <h5 style="text-align: right"><a href="/logout" style="margin: 20px">Log out</a> | <a href="/travel" style="margin: 20px">Home</a></h5>
+      <div class="container">
+          <table>
+              <tbody>
+                  <thead>
+                      <th><h3>{{travel.destination}}</h3></th>
+                  </thead>
+                  <tr>
+                      <td><b>Planed By:</b>  {{travel.creator.name}}</td>
+                  </tr>
+                  <tr>
+                       <td><b>Description:</b>  {{travel.description}}</td>
+                  </tr>
+                  <tr>
+                       <td><b>Travel Date From:</b>  {{travel.start}}</td>
+                  </tr>
+                  <tr>
+                        <td><b>Travel Date To:</b>  {{travel.end}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+          <br>
+      <div class="container">
+          <h4>Other User's Joining the Trip</h4>
+              {%for user in others%}
+                 <h5> {{user.name}}</h5>
+              {%endfor%}
+          <br>
+            {%if travel.creator.id == user.id%}
+                <h5><a href="/delete/{{travel.id}}">Delete</a></h5>
+            {%endif%}
+    </body>
+</html>

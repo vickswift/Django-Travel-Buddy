@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Travel Dash Board</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <h5 style="text-align: right"><a href="/logout">Logout</a></h5>
+        <br>
+        <p>Successfully logged in! Welcome, <b>{{user.name}} !</b></p>
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+    </div>
+    <div class="container">
+        <h4>Your Trip Schedules</h4>
+        <table>
+            <thead>
+                <th>Desination</th>
+                <th>Travel Start Date</th>
+                <th>Travel End Date</th>
+                <th>Plan</th>
+            </thead>
+            <tbody>
+                {%if travels%}
+                    {%for travel in travels%}
+                        {%if travel.creator.id == user.id%}
+                <tr>
+                    <td><a href="/show/{{travel.id}}">{{travel.destination}}</a></td>
+                    <td>{{travel.start}}</td>
+                    <td>{{travel.end}}</td>
+                    <td>{{travel.description}}</td>
+                </tr>
+                        {%endif%}
+                        {%for everyuser in travel.join.all%}
+                            {%if everyuser.id == user.id%}
+                <tr>
+                    <td><a href="/show/{{travel.id}}">{{travel.destination}}</a></td>
+                    <td>{{travel.start}}</td>
+                    <td>{{travel.end}}</td>
+                    <td>{{travel.description}}</td>
+                </tr>
+                            {%endif%}
+                        {%endfor%}
+                    {%endfor%}
+                {%endif%}
+            </tbody>
+        </table>
+    </div>
+        <br>
+    <div class="container">
+        <h4>Other User's Travel Plans</h4>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Destination</th>
+                <th>Travel Start Date</th>
+                <th>Travel End Date</th>
+                <th>Do You Want to Join?</th>
+            </thead>
+            <tbody>
+                {%if travels%}
+                    {%for travel in others%}
+                <tr>
+                    <td>{{travel.creator.name}}</td>
+                    <td><a href="/show/{{travel.id}}">{{travel.destination}}</a></td>
+                    <td>{{travel.start}}</td>
+                    <td>{{travel.end}}</td>
+
+                        {%if user !=  travel.creator%}
+                    <form class="" action="/join/{{travel.id}}" method="POST">
+                         {% csrf_token %}
+                        <td><input type="Submit" name="join" value="Join"></td>
+                    </form>
+                        {%endif%}
+                </tr>
+                    {%endfor%}
+                {%endif%}
+            </tbody>
+        </table>
+        <br>
+        <h5 style="text-align: right"><a href="/addplan">Add Travel Plan</a></h5>
+    </div>
+  </body>
+</html>
